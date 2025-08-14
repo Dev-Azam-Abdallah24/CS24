@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حل المشاكل عن طريق البحث - الذكاء الاصطناعي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --light-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --success-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --warning-gradient: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --text-light: #ecf0f1;
+            --bg-light: #f8f9fa;
+            --shadow-light: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-medium: 0 8px 30px rgba(0,0,0,0.15);
+            --shadow-heavy: 0 15px 50px rgba(0,0,0,0.2);
+            
+            --border-radius: 15px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            background: var(--accent-gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* قسم البطل */
+        .hero {
+            min-height: 100vh;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="20" cy="80" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--text-light);
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-family: 'Amiri', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* الأقسام */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        /* البطاقات */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* بطاقات الخوارزميات */
+        .algorithm-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .algorithm-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .algorithm-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--secondary-gradient);
+        }
+
+        .algorithm-card.uninformed::before {
+            background: var(--warning-gradient);
+        }
+
+        .algorithm-card.informed::before {
+            background: var(--success-gradient);
+        }
+
+        .algorithm-card.local::before {
+            background: var(--accent-gradient);
+        }
+
+        .algorithm-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .algorithm-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .algorithm-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .algorithm-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .algorithm-image {
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .algorithm-image img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .algorithm-image img:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .algorithm-properties {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .property {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .property.complete {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .property.optimal {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .property.incomplete {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .property.time, .property.space {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* جدول المقارنة */
+        .comparison-table {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            margin: 3rem 0;
+            overflow-x: auto;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table th {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-complete {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .status-optimal {
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .status-incomplete {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        /* تصور الشجرة */
+        .tree-visualization {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            box-shadow: var(--shadow-light);
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .tree-level {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .tree-node {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .tree-node:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .tree-node.pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* أمثلة */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .example-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .example-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* الختم */
+        .footer {
+            background: var(--dark-gradient);
+            color: var(--text-light);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-title {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* الرسوم المتحركة */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* التجاوب */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cards-grid,
+            .algorithm-cards,
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .card,
+            .algorithm-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">الذكاء الاصطناعي</div>
+            <ul class="nav-links">
+                <li><a href="home.html">الرئيسية</a></li>
+                <li><a href="lecture1.html">المحاضرة الأولى</a></li>
+                <li><a href="lecture2.html">المحاضرة الثانية</a></li>
+                <li><a href="ai_lecture_with_images.html">المحاضرة الثالثة</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- قسم البطل -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"> الذكاء الاصطناعي</div>
+            <h1 class="hero-title">حل المشاكل عن طريق البحث</h1>
+            <p class="hero-subtitle">
+                دليل شامل لخوارزميات البحث في الذكاء الاصطناعي - من المفاهيم الأساسية إلى التطبيقات المتقدمة
+            </p>
+        </div>
+    </section>
+
+    <!-- المقدمة -->
+    <section class="section" id="intro">
+        <div class="container">
+            <h2 class="section-title">مقدمة في مشاكل البحث</h2>
+            
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>فضاء الحالة</h3>
+                    <p>فضاء الحالة هو مجموعة جميع الحالات الممكنة في المشكلة. يمكن تمثيله كرسم بياني حيث العقد تمثل الحالات والحواف تمثل الإجراءات. مثال: في لعبة الشطرنج، كل ترتيب للقطع على الرقعة يمثل حالة منفصلة.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>مكونات مشكلة البحث</h3>
+                    <p>تتكون أي مشكلة بحث من خمسة عناصر أساسية: الحالة الأولية، الإجراءات المتاحة، نموذج الانتقال، اختبار الهدف، وتكلفة المسار. هذه المكونات تحدد فضاء الحالة الذي يتم البحث فيه.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>ما هي مشاكل البحث؟</h3>
+                    <p>مشاكل البحث هي نوع من المشاكل في الذكاء الاصطناعي حيث نحتاج لإيجاد تسلسل من الإجراءات للوصول من حالة ابتدائية إلى حالة هدف. تتطلب تصميم عملاء موجهين بالهدف.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>شجرة البحث</h3>
+                    <p>شجرة البحث هي هيكل البيانات المستخدم لتنظيم عملية البحث. تبدأ من العقدة الجذرية وتوسع العقد الجديدة حتى تجد الحل. الحالات الممكنة ذي الوصول إلى الهدف.</p>
+                </div>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">🧩</div>
+                    <div class="example-title">لغز المربعات المنزلقة</div>
+                    <p>لغز 8-puzzle حيث تحرك المربعات لتوصيلها من 1 إلى 8. فضاء الحالة يحتوي على 181,440 حالة ممكنة. هما يجعل البحث العشوائي غير عملي.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🗺️</div>
+                    <div class="example-title">مثال: عملية رومانيا</div>
+                    <p>مشكلة خلاسيكية حيث نريد السفر من مدينة Arad إلى Bucharest. الحالات هي المدن، والإجراءات هي القيادة بين المدن، والهدف هو الوصول إلى العاصمة بأقل تكلفة.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">👑</div>
+                    <div class="example-title">مشكلة N-Queens</div>
+                    <p>وضع N ملكة على رقعة شطرنج N×N بحيث لا تهاجم أي ملكة أخرى. مثال على مشاكل القيود (CSP) التي تتطلب بحث متخصص.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🤖</div>
+                    <div class="example-title">عالم المكنسة الكهربائية</div>
+                    <p>مثال بسيط حيث روبوت مكنسة يحتاج للتنظيف عرفتين. فضاء الحالة صغير (8) حالات) مما يجعله مثالياً لفهم المفاهيم الأساسية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- البحث غير المستنير -->
+    <section class="section" id="uninformed">
+        <div class="container">
+            <h2 class="section-title">البحث غير المستنير</h2>
+            
+            <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 3rem;">
+                استراتيجيات البحث التي لا تستخدم أي معلومات إضافية عن الهدف، وتعتمد فقط على هيكل الشجرة
+            </p>
+
+            <div class="algorithm-cards">
+                <div class="algorithm-card uninformed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>البحث في العرض أولاً (BFS)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/4eKsKikKV6VY.png" alt="BFS Algorithm" />
+                    </div>
+                    <p>يستكشف جميع العقد في مستوى معين قبل الانتقال إلى المستوى التالي. يضمن إيجاد أقصر مسار إذا كانت جميع الخطوات متساوية.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">✓ الاكتمال</span>
+                        <span class="property optimal">✓ المثالية</span>
+                        <span class="property time">تعقيد الوقت: O(b^d)</span>
+                        <span class="property space">تعقيد المساحة: O(b^d)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card uninformed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>البحث المرجع الكلفة (UCS)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/ulDH5AELmRsG.png" alt="UCS Algorithm" />
+                    </div>
+                    <p>يوسع العقدة ذات التكلفة الإجمالية الأقل أولاً. يضمن إيجاد المسار الأقل تكلفة إذا كانت تكاليف الخطوات موجبة.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">✓ الاكتمال</span>
+                        <span class="property optimal">✓ المثالية</span>
+                        <span class="property time">تعقيد الوقت: O(b^(C*/ε))</span>
+                        <span class="property space">تعقيد المساحة: O(b^(C*/ε))</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card uninformed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>البحث في العمق أولاً (DFS)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/FTcUvKclLTHO.png" alt="DFS Algorithm" />
+                    </div>
+                    <p>يستكشف أعمق مسار ممكن أولاً قبل الرجوع للخلف والبحث في مسارات أخرى. قد يحدق في حلقات غير منتهية.</p>
+                    <div class="algorithm-properties">
+                        <span class="property incomplete">✗ الاكتمال</span>
+                        <span class="property incomplete">✗ المثالية</span>
+                        <span class="property time">تعقيد الوقت: O(b^m)</span>
+                        <span class="property space">تعقيد المساحة: O(bm)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card uninformed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>البحث التكراري المعمق (IDS)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/jpdvkGBvt4ia.png" alt="IDS Algorithm" />
+                    </div>
+                    <p>يجمع بين مزايا BFS وDFS. والمثالية، يتم تنفيذ عمليات بحث محدودة العمق متكررة.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">✓ الاكتمال</span>
+                        <span class="property optimal">✓ المثالية (إذا كانت الكلفة متساوية)</span>
+                        <span class="property time">تعقيد الوقت: O(b^d)</span>
+                        <span class="property space">تعقيد المساحة: O(bd)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card uninformed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>البحث ثنائي الاتجاه</h3>
+                    <div class="algorithm-image">
+                        <img src="images/Py0nKCikFxPc.png" alt="Bidirectional Search Algorithm" />
+                    </div>
+                    <p>يبحث من الحالة الأولية والهدف في نفس الوقت، ويتوقف عندما يلتقي البحثان. يمكن أن يكون أسرع من البحث أحادي الاتجاه.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">✓ الاكتمال</span>
+                        <span class="property optimal">✓ المثالية</span>
+                        <span class="property time">تعقيد الوقت: O(b^(d/2))</span>
+                        <span class="property space">تعقيد المساحة: O(b^(d/2))</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-table fade-in">
+                <h3 style="margin-bottom: 2rem; color: var(--text-primary);">جدول مقارنة الخوارزميات</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الخوارزمية</th>
+                            <th>الاكتمال</th>
+                            <th>المثالية</th>
+                            <th>تعقيد الوقت</th>
+                            <th>تعقيد المساحة</th>
+                            <th>الاستخدام المفضل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BFS</strong></td>
+                            <td class="status-complete">نعم</td>
+                            <td class="status-optimal">نعم</td>
+                            <td>O(b^d)</td>
+                            <td>O(b^d)</td>
+                            <td>عمق صغير، تكلفة متساوية</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UCS</strong></td>
+                            <td class="status-complete">نعم</td>
+                            <td class="status-optimal">نعم</td>
+                            <td>O(b^(C*/ε))</td>
+                            <td>O(b^(C*/ε))</td>
+                            <td>تكاليف مختلفة، مثالية مطلوبة</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DFS</strong></td>
+                            <td class="status-incomplete">لا</td>
+                            <td class="status-incomplete">لا</td>
+                            <td>O(b^m)</td>
+                            <td>O(bm)</td>
+                            <td>ذاكرة محدودة، عمق محدود</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IDS</strong></td>
+                            <td class="status-complete">نعم</td>
+                            <td class="status-optimal">نعم*</td>
+                            <td>O(b^d)</td>
+                            <td>O(bd)</td>
+                            <td>الخيار المفضل للبحث غير المستنير</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ثنائي الاتجاه</strong></td>
+                            <td class="status-complete">نعم</td>
+                            <td class="status-optimal">نعم</td>
+                            <td>O(b^(d/2))</td>
+                            <td>O(b^(d/2))</td>
+                            <td>إجراءات عكسية، هدف واضح</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    * المثالية مضمونة إذا كانت تكلفة كل خطوة متساوية
+                </p>
+            </div>
+
+            <div class="tree-visualization fade-in">
+                <h3 style="margin-bottom: 2rem; color: var(--text-primary);">تصور شجرة البحث - مثال BFS</h3>
+                <div class="tree-level">
+                    <div class="tree-node pulse">S</div>
+                </div>
+                <div class="tree-level">
+                    <div class="tree-node">A</div>
+                    <div class="tree-node">B</div>
+                </div>
+                <div class="tree-level">
+                    <div class="tree-node">C</div>
+                    <div class="tree-node">D</div>
+                    <div class="tree-node">E</div>
+                    <div class="tree-node">F</div>
+                </div>
+                <p style="margin-top: 2rem; color: var(--text-secondary);">
+                    في BFS، يتم توسيع العقد حسب مستواها: S أولاً، ثم A و B، ثم C و D و E و F
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- البحث المستنير -->
+    <section class="section" id="informed">
+        <div class="container">
+            <h2 class="section-title">البحث المستنير</h2>
+            
+            <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 3rem;">
+                استراتيجيات البحث التي تستخدم دوال التقدير (heuristics) لتوجيه البحث نحو الهدف بكفاءة أكبر
+            </p>
+
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h3>دالة التقدير (Heuristic Function)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/ariolVcE5xSl.png" alt="Heuristic Function" />
+                    </div>
+                    <p>دالة h(n) تقدر تكلفة المسار من العقدة n إلى أقرب عقدة هدف. كلما كانت أكثر دقة، كلما كان البحث أسرع. يجب أن تكون h(n) = 0 إذا كانت n هي عقدة هدف.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>دالة التقدير المقبولة</h3>
+                    <p>دالة التقدير تكون مقبولة إذا كانت لا تبالغ أبداً في تقدير التكلفة الحقيقية. هذه الخاصية ضرورية لضمان مثالية A*. المسافة الجوية مثال على دالة تقدير مقبولة.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>دالة التقدير المتسقة</h3>
+                    <p>دالة التقدير تكون متسقة إذا كانت تحقق عدم المساواة المثلثية. إذا كانت متسقة، فإنها تكون مقبولة أيضاً، وتضمن أن قيمة f(n) لا تتناقص على طول أي مسار.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>بناء دوال التقدير</h3>
+                    <p>يمكن بناء دوال تقدير جيدة عن طريق تبسيط المشكلة الأصلية (relaxed problem). على سبيل المثال، في لغز 8-puzzle، يمكن السماح للمربعات بالتحرك إلى أي مكان.</p>
+                </div>
+            </div>
+
+            <div class="algorithm-cards">
+                <div class="algorithm-card informed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>البحث الجشع الأفضل أولاً</h3>
+                    <p>يوسع العقدة التي تبدو الأقرب إلى الهدف أولاً، بناءً على دالة التقدير h(n). سريع ولكن لا يضمن المثالية.</p>
+                    <div class="algorithm-properties">
+                        <span class="property incomplete">✗ الاكتمال</span>
+                        <span class="property incomplete">✗ المثالية</span>
+                        <span class="property time">تعقيد الوقت: O(b^m)</span>
+                        <span class="property space">تعقيد المساحة: O(b^m)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card informed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>خوارزمية A*</h3>
+                    <div class="algorithm-image">
+                        <img src="images/LR5avssWJ1ga.png" alt="A* Algorithm" />
+                    </div>
+                    <p>تجمع بين مزايا UCS والبحث الجشع. توسع العقدة التي تقلل من f(n) = g(n) + h(n). الخوارزمية المفضلة للبحث المستنير.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">✓ الاكتمال</span>
+                        <span class="property optimal">✓ المثالية (إذا كانت h مقبولة)</span>
+                        <span class="property time">تعقيد الوقت: O(b^d)</span>
+                        <span class="property space">تعقيد المساحة: O(b^d)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card informed fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>البحث التكراري A* (IDA*)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/mKyhVVxRqjJj.jpg" alt="IDA* Algorithm" />
+                    </div>
+                    <p>نسخة من A* تحل مشكلة الذاكرة. تشغل DFS بشكل متكرر مع حد لقيمة f(n) بدلاً من العمق. توفر في الذاكرة مع الحفاظ على المثالية.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">✓ الاكتمال</span>
+                        <span class="property optimal">✓ المثالية</span>
+                        <span class="property time">تعقيد الوقت: O(b^d)</span>
+                        <span class="property space">تعقيد المساحة: O(bd)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">🗺️</div>
+                    <div class="example-title">المسافة الجوية في رومانيا</div>
+                    <p>المسافة الجوية من كل مدينة إلى بوخارست هي دالة تقدير مقبولة لأن أقصر مسافة بين نقطتين هي الخط المستقيم. لا يمكن أن تكون تكلفة القيادة أقل من المسافة الجوية.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🧩</div>
+                    <div class="example-title">مسافة مانهاتن في 8-puzzle</div>
+                    <p>مجموع المسافات المانهاتنية لكل مربع من مكانه الصحيح. هذه دالة تقدير قوية ومقبولة لأنها تحسب الحد الأدنى لعدد الحركات المطلوبة لكل مربع.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🎯</div>
+                    <div class="example-title">مقارنة أداء A*</div>
+                    <p>مع دالة تقدير جيدة، يمكن لـ A* أن تقلل عدد العقد المستكشفة بشكل كبير. في لغز 8-puzzle، مسافة مانهاتن تتفوق بوضوح على عدد المربعات في غير مكانها.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">⚡</div>
+                    <div class="example-title">متى نختار IDA*؟</div>
+                    <p>عندما تكون A* تستهلك الكثير من الذاكرة والمثالية مطلوبة. IDA* مثالية للمشاكل التي تتطلب ذاكرة كبيرة مثل الألعاب والألغاز المعقدة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- البحث المحلي -->
+    <section class="section" id="local">
+        <div class="container">
+            <h2 class="section-title">البحث المحلي</h2>
+            
+            <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 3rem;">
+                خوارزميات تركز على تحسين الحل الحالي بدلاً من البحث عن مسار كامل
+            </p>
+
+            <div class="algorithm-cards">
+                <div class="algorithm-card local fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3>البحث في التل (Hill-Climbing)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/oZabJ5g3IfrA.png" alt="Hill-Climbing Algorithm" />
+                    </div>
+                    <p>يتحرك دائماً نحو الحالة الأفضل من الحالة الحالية. بسيط وسريع ولكن يمكن أن يعلق في الحد الأقصى المحلي.</p>
+                    <div class="algorithm-properties">
+                        <span class="property incomplete">المشاكل: الحد الأقصى المحلي، الهضاب، التلال</span>
+                        <span class="property complete">الذاكرة: قليلة جداً</span>
+                        <span class="property complete">السرعة: سريع</span>
+                        <span class="property incomplete">المثالية: غير مضمونة</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card local fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3>المحاكاة الساخنة (Simulated Annealing)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/gC3k7Hy1Yzou.jpg" alt="Simulated Annealing Algorithm" />
+                    </div>
+                    <p>مستوحاة من عملية التبريد البطيء للمعادن. تسمح بالتحرك نحو حالات أسوأ أحياناً لتجنب الحد الأقصى المحلي.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">الاكتمال: نعم (مع تبريد بطيء)</span>
+                        <span class="property optimal">المثالية: نعم (مع تبريد بطيء)</span>
+                        <span class="property complete">المرونة: عالية</span>
+                        <span class="property">التطبيق: مشاكل التحسين المعقدة</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card local fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3>الخوارزميات الوراثية (Genetic Algorithms)</h3>
+                    <div class="algorithm-image">
+                        <img src="images/9TDg4F9IqZfs.png" alt="Genetic Algorithms" />
+                    </div>
+                    <p>مستوحاة من التطور الطبيعي. تحتفظ بمجموعة من الحلول وتحسنها عبر الأجيال باستخدام الانتخاب والتزاوج والطفرة.</p>
+                    <div class="algorithm-properties">
+                        <span class="property complete">التنوع: عالي</span>
+                        <span class="property optimal">التوازي: طبيعي</span>
+                        <span class="property complete">المرونة: عالية</span>
+                        <span class="property">التطبيق: مشاكل التحسين المتعددة الأهداف</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card local fade-in">
+                    <div class="algorithm-icon">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                    <h3>البحث في الشعاع (Beam Search)</h3>
+                    <p>يحتفظ بأفضل k عقدة في كل مستوى. يقلل متطلبات الذاكرة ولكن يمكن أن يفقد الحل الأمثل.</p>
+                    <div class="algorithm-properties">
+                        <span class="property incomplete">الاكتمال: لا</span>
+                        <span class="property incomplete">المثالية: لا</span>
+                        <span class="property complete">الذاكرة: محدودة</span>
+                        <span class="property">الاستخدام: عندما الذاكرة محدودة</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <h3>آلية المحاكاة الساخنة</h3>
+                    <p>تبدأ بدرجة حرارة عالية (احتمالية كبيرة لقبول حالات أسوأ). تنخفض الحرارة تدريجياً هذا يسمح بالاستكشاف في البداية والتركيز في النهاية.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>مشاكل Hill-Climbing</h3>
+                    <p>الحد الأقصى المحلي: نقطة أعلى من جميع النقاط المجاورة ولكن ليست الأعلى عالمياً. الهضاب: منطقة مسطحة حيث جميع النقاط المجاورة لها نفس القيمة.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>مكونات الخوارزميات الوراثية</h3>
+                    <p>الانتخاب: اختيار الحلول الأفضل للتكاثر. التهجين: دمج حلين لإنتاج حلول جديدة. الطفرة: تغييرات عشوائية للحفاظ على التنوع. الإحلال: اختيار الحلول للجيل القادم.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>تطبيقات البحث المحلي</h3>
+                    <p>جدولة المواعيد: ترتيب المهام والموارد. تصميم الدوائر: تحسين تخطيط المكونات. تحسين الشبكات: تحديد البيانات وتوزيع الحمولة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الملخص والمراجعة -->
+    <section class="section" id="summary">
+        <div class="container">
+            <h2 class="section-title">الملخص والمراجعة</h2>
+            
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>معايير التقييم</h3>
+                    <p><strong>الاكتمال:</strong> هل تجد حلاً إذا كان موجوداً؟<br>
+                    <strong>المثالية:</strong> هل تجد الحل الأقل تكلفة؟<br>
+                    <strong>تعقيد الوقت:</strong> كم من الوقت تستغرق؟<br>
+                    <strong>تعقيد المساحة:</strong> كم من الذاكرة تحتاج؟</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>استراتيجيات البحث</h3>
+                    <p><strong>غير المستنير:</strong> BFS, UCS, DFS, IDS - تستخدم معلومات إضافية عن الهدف.<br>
+                    <strong>المستنير:</strong> Greedy, A*, IDA* - تستخدم دوال التقدير الذكي.<br>
+                    <strong>المحلي:</strong> Hill-Climbing, Simulated Annealing - تحسن الحل الحالي.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>مكونات مشكلة البحث</h3>
+                    <p>لكل أي مشكلة بحث، نحتاج تحديد: الحالة الأولية، الإجراءات المتاحة، نموذج الانتقال، اختبار الهدف، وتكلفة المسار. هذه المكونات تحدد فضاء الحالة ومسارة المشكلة.</p>
+                </div>
+            </div>
+
+            <div class="comparison-table fade-in">
+                <h3 style="margin-bottom: 2rem; color: var(--text-primary);">مقارنة شاملة للخوارزميات</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>نوع البحث</th>
+                            <th>الخوارزمية المفضلة</th>
+                            <th>متى نستخدم</th>
+                            <th>العيوب</th>
+                            <th>المزايا</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>غير المستنير</strong></td>
+                            <td>IDS</td>
+                            <td>لا توجد معلومات إضافية عن الهدف</td>
+                            <td>بطيء للمشاكل الكبيرة</td>
+                            <td>يضمن الحل الأمثل</td>
+                        </tr>
+                        <tr>
+                            <td><strong>المستنير</strong></td>
+                            <td>A*</td>
+                            <td>دالة تقدير جيدة متاحة</td>
+                            <td>يحتاج ذاكرة كبيرة</td>
+                            <td>سريع مثالي</td>
+                        </tr>
+                        <tr>
+                            <td><strong>المحلي</strong></td>
+                            <td>Simulated Annealing</td>
+                            <td>مشاكل التحسين، ذاكرة محدودة</td>
+                            <td>لا يضمن الحل الأمثل</td>
+                            <td>يحسن الحل تدريجياً</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">⚠️</div>
+                    <div class="example-title">أخطاء شائعة</div>
+                    <p><strong>للمشاكل المعقدة:</strong> استخدام BFS بدون حد عمق في دورات<br>
+                    <strong>استخدام دالة تقدير غير مقبولة:</strong> A* قد<br>
+                    <strong>تجاهل متطلبات الذاكرة:</strong> في المشاكل الكبيرة<br>
+                    <strong>عدم التحقق من الحالات المتكررة</strong></p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🎯</div>
+                    <div class="example-title">نصائح لاختيار الخوارزمية</div>
+                    <p><strong>للمشاكل المعقدة:</strong> استخدم BFS أو A*<br>
+                    <strong>للمشاكل الكبيرة:</strong> استخدم IDS أو IDA*<br>
+                    <strong>للذاكرة المحدودة:</strong> استخدم DFS أو البحث المحلي<br>
+                    <strong>السرعة:</strong> استخدم Greedy Best-First</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">📚</div>
+                    <div class="example-title">مواضيع متقدمة</div>
+                    <p><strong>مشاكل القيود (CSP):</strong> تقنيات متخصصة<br>
+                    <strong>البحث في الفضاء المستمر:</strong> تحسين عددي<br>
+                    <strong>البحث العدائي:</strong> ألعاب ومنافسة<br>
+                    <strong>البحث الاحتمالي:</strong> بيانات غير مؤكدة</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🚀</div>
+                    <div class="example-title">تحسينات متقدمة</div>
+                    <p><strong>بحث الرسم البياني:</strong> تجنب الحالات المكررة<br>
+                    <strong>البحث ثنائي الاتجاه:</strong> للمشاكل ذات الهدف الواضح<br>
+                    <strong>البحث التوازي:</strong> تشغيل عدة خوارزميات معاً<br>
+                    <strong>التعلم:</strong> تحسين دوال التقدير من التجربة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الختم -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h2 class="footer-title">تم بواسطة اللجنة العلمية لعلوم الحاسوب 24</h2>
+            <p class="footer-subtitle">
+                شرح شامل ومفصل لمحاضرة "حل المشاكل عن طريق البحث" في الذكاء الاصطناعي
+            </p>
+            <p class="footer-note">
+                تم إعداد هذا المحتوى بعناية فائقة لتقديم فهم عميق وشامل لخوارزميات البحث
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // تأثيرات التمرير
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // تأثيرات الظهور عند التمرير
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // مراقبة العناصر للتأثيرات
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            observer.observe(el);
+        });
+
+        // تمرير سلس للروابط
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // تأثيرات إضافية للبطاقات
+        document.querySelectorAll('.card, .algorithm-card, .example-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // تأثير النقر على الصور
+        document.querySelectorAll('.algorithm-image img').forEach(img => {
+            img.addEventListener('click', function() {
+                // إنشاء نافذة عرض للصورة
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.9);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    cursor: pointer;
+                `;
+                
+                const enlargedImg = document.createElement('img');
+                enlargedImg.src = this.src;
+                enlargedImg.style.cssText = `
+                    max-width: 90%;
+                    max-height: 90%;
+                    border-radius: 10px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                `;
+                
+                overlay.appendChild(enlargedImg);
+                document.body.appendChild(overlay);
+                
+                overlay.addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

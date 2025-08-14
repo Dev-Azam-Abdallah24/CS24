@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقدمة في الذكاء الاصطناعي - المحاضرة الثانية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --light-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --success-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --warning-gradient: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            --purple-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --orange-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            --green-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --text-light: #ecf0f1;
+            --bg-light: #f8f9fa;
+            --shadow-light: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-medium: 0 8px 30px rgba(0,0,0,0.15);
+            --shadow-heavy: 0 15px 50px rgba(0,0,0,0.2);
+            
+            --border-radius: 15px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            background: var(--accent-gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* قسم البطل */
+        .hero {
+            min-height: 100vh;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="20" cy="80" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--text-light);
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-family: 'Amiri', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* الأقسام */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        /* البطاقات */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* بطاقات المفاهيم */
+        .concept-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .concept-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--secondary-gradient);
+        }
+
+        .concept-card.definition::before {
+            background: var(--purple-gradient);
+        }
+
+        .concept-card.history::before {
+            background: var(--orange-gradient);
+        }
+
+        .concept-card.applications::before {
+            background: var(--green-gradient);
+        }
+
+        .concept-card.ethics::before {
+            background: var(--warning-gradient);
+        }
+
+        .concept-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .concept-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .concept-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* جدول المقارنة */
+        .comparison-table {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            margin: 3rem 0;
+            overflow-x: auto;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table th {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* تصور الخط الزمني */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 3rem auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--primary-gradient);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            top: 15px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background: white;
+            position: relative;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .timeline-content h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* أمثلة */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .example-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .example-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* الختم */
+        .footer {
+            background: var(--dark-gradient);
+            color: var(--text-light);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-title {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* الرسوم المتحركة */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* التجاوب */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cards-grid,
+            .concept-cards,
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item::after {
+                left: 21px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .card,
+            .concept-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">الذكاء الاصطناعي</div>
+            <ul class="nav-links">
+                <li><a href="home.html">الرئيسية</a></li>
+                <li><a href="lecture1.html">المحاضرة الأولى</a></li>
+                <li><a href="lecture2.html">المحاضرة الثانية</a></li>
+                <li><a href="ai_lecture_with_images.html">المحاضرة الثالثة</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- قسم البطل -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"> الذكاء الاصطناعي</div>
+            <h1 class="hero-title">مقدمة في الذكاء الاصطناعي</h1>
+            <p class="hero-subtitle">
+                رحلة شاملة عبر تاريخ وتطبيقات وأخلاقيات الذكاء الاصطناعي - من المفاهيم الأساسية إلى التحديات المستقبلية
+            </p>
+        </div>
+    </section>
+
+    <!-- تعريف الذكاء الاصطناعي -->
+    <section class="section" id="definition">
+        <div class="container">
+            <h2 class="section-title">ما هو الذكاء الاصطناعي؟</h2>
+            
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>التعريف الأساسي</h3>
+                    <p>الذكاء الاصطناعي هو أنظمة حاسوبية قادرة على محاكاة المهام التي تتطلب عادةً ذكاءً بشريًا، مثل التعلم، حل المشكلات، واتخاذ القرارات. يهدف إلى إنشاء آلات يمكنها التفكير والتصرف بطريقة ذكية.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>التاريخ والتطور</h3>
+                    <p>رغم أن فكرة الآلات الذكية قديمة، إلا أن مصطلح "الذكاء الاصطناعي" صيغ في عام 1956. بدأ البحث المبكر بالتركيز على الأنظمة المنطقية والقائمة على القواعد، بينما يُدفع اليوم بالتعلم الآلي والشبكات العصبية.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>مثال عملي: ASIMO</h3>
+                    <p>روبوت ASIMO من هوندا (2000) يُجسد الذكاء الاصطناعي في العمل. يمكنه المشي، الجري، تسلق السلالم، التعرف على الوجوه، والاستجابة للأوامر الصوتية، مما يُظهر قدرات حركية وإدراكية معقدة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- أهداف الذكاء الاصطناعي -->
+    <section class="section" id="goals">
+        <div class="container">
+            <h2 class="section-title">أهداف الذكاء الاصطناعي</h2>
+            
+            <div class="concept-cards">
+                <div class="concept-card definition">
+                    <div class="concept-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>الهدف الأساسي</h3>
+                    <p>"جعل الآلات تحل المشكلات التي تُعد تحديًا للبشر." نسمي هذه الآلة "وكيل" أو "وكيل ذكي" يمكنه التفكير واتخاذ القرارات بطريقة مستقلة.</p>
+                </div>
+
+                <div class="concept-card history">
+                    <div class="concept-icon">
+                        <i class="fas fa-focus"></i>
+                    </div>
+                    <h3>الذكاء الاصطناعي الضيق</h3>
+                    <p>يُركز على الوكلاء الأذكياء لحل مشكلة محددة. معظم أنظمة الذكاء الاصطناعي الحالية تندرج تحت هذا التصنيف، مثل أنظمة التعرف على الصور أو الترجمة الآلية.</p>
+                </div>
+
+                <div class="concept-card applications">
+                    <div class="concept-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>الذكاء الاصطناعي العام</h3>
+                    <p>وكيل ذكي افتراضي يمكنه فهم أو تعلم أي مهمة فكرية يمكن للبشر القيام بها. لا يزال هذا المفهوم في طور البحث النظري ولم يتحقق بعد.</p>
+                </div>
+            </div>
+
+            <div class="comparison-table">
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">مقاربات تحقيق الذكاء الاصطناعي</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المقاربة</th>
+                            <th>التركيز</th>
+                            <th>المثال</th>
+                            <th>التحديات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>التفكير مثل البشر</strong></td>
+                            <td>محاكاة العمليات المعرفية البشرية</td>
+                            <td>دراسة كيفية اتخاذ البشر للقرارات</td>
+                            <td>صعوبة فهم آلية عمل الدماغ</td>
+                        </tr>
+                        <tr>
+                            <td><strong>التصرف مثل البشر</strong></td>
+                            <td>السلوك الخارجي غير المميز عن البشري</td>
+                            <td>اختبار تورينج، ChatGPT</td>
+                            <td>إمكانية التقليد دون فهم حقيقي</td>
+                        </tr>
+                        <tr>
+                            <td><strong>التفكير بعقلانية</strong></td>
+                            <td>التفكير المنطقي والاستنتاجات الصحيحة</td>
+                            <td>الأنظمة الخبيرة القائمة على المنطق</td>
+                            <td>صعوبة التعامل مع عدم اليقين</td>
+                        </tr>
+                        <tr>
+                            <td><strong>التصرف بعقلانية</strong></td>
+                            <td>اتخاذ القرارات التي تحقق أفضل نتيجة</td>
+                            <td>أنظمة التحسين، GPS</td>
+                            <td>القيود الحسابية والمعرفية</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- اختبار تورينج -->
+    <section class="section" id="turing">
+        <div class="container">
+            <h2 class="section-title">اختبار تورينج والانتقادات</h2>
+            
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>اختبار تورينج (1950)</h3>
+                    <p>اقترح آلان تورينج اختبارًا لتحديد ما إذا كانت الآلة يمكنها إظهار سلوك ذكي لا يمكن تمييزه عن سلوك الإنسان. إذا لم يتمكن المحاور البشري من التمييز، فإن الآلة تُعتبر قد اجتازت الاختبار.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>القدرات المطلوبة</h3>
+                    <p>لاجتياز اختبار تورينج، تحتاج الآلة إلى: معالجة اللغة الطبيعية، تمثيل المعرفة، الاستدلال الآلي، والتعلم الآلي. هذه لا تزال المجالات الأساسية في الذكاء الاصطناعي اليوم.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>حجة الغرفة الصينية</h3>
+                    <p>جون سيرل (1980) جادل بأن مجرد تقليد الذكاء باستخدام القواعد لا يعني وجود فهم حقيقي. يمكن للآلة أن تبدو ذكية دون أن تفهم فعلاً ما تفعله، مثل برنامج ELIZA المبكر.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- مكونات الوكيل الذكي -->
+    <section class="section" id="agent">
+        <div class="container">
+            <h2 class="section-title">مكونات الوكيل الذكي</h2>
+            
+            <div class="concept-cards">
+                <div class="concept-card definition">
+                    <div class="concept-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>التواصل مع البيئة</h3>
+                    <p>القدرة على استقبال المدخلات من البيئة عبر الحساسات وإرسال المخرجات إليها عبر المؤثرات. هذا يُمكن الوكيل من التفاعل مع العالم الخارجي.</p>
+                </div>
+
+                <div class="concept-card history">
+                    <div class="concept-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>تمثيل المعرفة والاستدلال</h3>
+                    <p>القدرة على تخزين المعلومات، استخدامها لاستخلاص استنتاجات، ووضع خطط لتحقيق الأهداف. هذا يُشكل "العقل" الداخلي للوكيل الذكي.</p>
+                </div>
+
+                <div class="concept-card applications">
+                    <div class="concept-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>التعلم لتحسين الأداء</h3>
+                    <p>القدرة الاختيارية على تحسين الأداء بمرور الوقت من خلال الخبرة. هذا ما يُميز الأنظمة الذكية الحديثة عن البرامج التقليدية.</p>
+                </div>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">🤖</div>
+                    <div class="example-title">روبوت المكنسة الذكي</div>
+                    <p>الحساسات: مستشعرات الأشعة تحت الحمراء<br>
+                    المعرفة: خريطة الغرفة<br>
+                    التخطيط: المسار الأمثل للتنظيف<br>
+                    التعلم: تذكر الأماكن المُنظفة</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🚗</div>
+                    <div class="example-title">السيارة ذاتية القيادة</div>
+                    <p>الحساسات: كاميرات، رادار، ليدار<br>
+                    المعرفة: خرائط الطرق وقوانين المرور<br>
+                    التخطيط: تحديد المسار الآمن<br>
+                    التعلم: التكيف مع أنماط القيادة</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🎮</div>
+                    <div class="example-title">لاعب الشطرنج الذكي</div>
+                    <p>المدخلات: وضعية الرقعة الحالية<br>
+                    المعرفة: قواعد الشطرنج والاستراتيجيات<br>
+                    التخطيط: تقييم الحركات المستقبلية<br>
+                    التعلم: تحسين الاستراتيجية من الألعاب السابقة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- التعلم الآلي مقابل الذكاء الاصطناعي -->
+    <section class="section" id="ml-vs-ai">
+        <div class="container">
+            <h2 class="section-title">التعلم الآلي مقابل الذكاء الاصطناعي</h2>
+            
+            <div class="concept-cards">
+                <div class="concept-card definition">
+                    <div class="concept-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>الذكاء الاصطناعي (AI)</h3>
+                    <p>المجال الأوسع الذي يشمل تصميم وكيل ذكي قادر على الرؤية، الحركة، معالجة اللغة الطبيعية، تمثيل المعرفة، التخطيط، وتحقيق الأهداف.</p>
+                </div>
+
+                <div class="concept-card history">
+                    <div class="concept-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>التعلم الآلي (ML)</h3>
+                    <p>جزء من الذكاء الاصطناعي يركز على التعلم من الأمثلة بدلاً من البرمجة الصريحة. يشمل التعلم الخاضع للإشراف، غير الخاضع للإشراف، والتعلم المعزز.</p>
+                </div>
+
+                <div class="concept-card applications">
+                    <div class="concept-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>التعلم العميق (Deep Learning)</h3>
+                    <p>مجموعة فرعية من التعلم الآلي تستخدم شبكات عصبية اصطناعية متعددة الطبقات. أحدث ثورة في معالجة الصور والكلام والنصوص.</p>
+                </div>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">🎤</div>
+                    <div class="example-title">نظام التعرف على الكلام</div>
+                    <p><strong>الذكاء الاصطناعي:</strong> التطبيق الشامل<br>
+                    <strong>التعلم الآلي:</strong> تدريب النموذج على آلاف الساعات من الكلام<br>
+                    <strong>التعلم العميق:</strong> استخدام شبكة عصبية عميقة لمعالجة الإشارات الصوتية</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">📸</div>
+                    <div class="example-title">تصنيف الصور</div>
+                    <p><strong>الذكاء الاصطناعي:</strong> النظام الكامل للرؤية الحاسوبية<br>
+                    <strong>التعلم الآلي:</strong> تدريب النموذج على ملايين الصور المُصنفة<br>
+                    <strong>التعلم العميق:</strong> شبكات CNN لاستخراج الميزات البصرية</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🌐</div>
+                    <div class="example-title">الترجمة الآلية</div>
+                    <p><strong>الذكاء الاصطناعي:</strong> فهم وإنتاج اللغة الطبيعية<br>
+                    <strong>التعلم الآلي:</strong> تدريب النموذج على نصوص متوازية<br>
+                    <strong>التعلم العميق:</strong> معمارية Transformer للترجمة العصبية</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- تاريخ الذكاء الاصطناعي -->
+    <section class="section" id="history">
+        <div class="container">
+            <h2 class="section-title">تاريخ الذكاء الاصطناعي</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1956 - ولادة المصطلح</h3>
+                        <p>صياغة مصطلح "الذكاء الاصطناعي" في مؤتمر دارتموث. بداية البحث الأكاديمي المنظم في هذا المجال.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1974-1980 - الشتاء الأول</h3>
+                        <p>فترة تراجع في التمويل والاهتمام بسبب التوقعات المبالغ فيها وعدم تحقيق النتائج المرجوة.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1987-1993 - الشتاء الثاني</h3>
+                        <p>فترة أخرى من التراجع بعد انهيار سوق أجهزة الكمبيوتر المتخصصة في الذكاء الاصطناعي.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1989 - نظرية التقريب الشامل</h3>
+                        <p>إثبات قدرة الشبكات العصبية على تقريب أي دالة مستمرة، مما وضع أساسًا نظريًا لقوتها.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2010s - ثورة التعلم العميق</h3>
+                        <p>بداية الثورة مدفوعة بوحدات معالجة الرسوميات (GPUs)، مما أتاح قفزات نوعية في معالجة الصور والكلام.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2020s - الذكاء الاصطناعي التوليدي</h3>
+                        <p>ظهور معماريات Transformer ونماذج اللغة الكبيرة مثل ChatGPT وDALL-E، مما أحدث ثورة في فهم وإنتاج المحتوى.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- أسباب النجاح الحديث -->
+    <section class="section" id="success">
+        <div class="container">
+            <h2 class="section-title">أسباب النجاحات الأخيرة</h2>
+            
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>أجهزة أسرع ومتخصصة</h3>
+                    <p>التطورات في قوة المعالجة، خاصة وحدات معالجة الرسوميات (GPUs)، أدت إلى تسريع تدريب نماذج التعلم العميق بشكل كبير. ما كان يستغرق شهورًا أصبح يتم في أيام أو ساعات.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>البيانات الضخمة والتخزين السحابي</h3>
+                    <p>توفر كميات هائلة من البيانات الرقمية من الإنترنت والحساسات، بالإضافة إلى القدرة على تخزينها ومعالجتها في السحابة، كان حاسمًا لتدريب النماذج المعقدة.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>هيمنة التعلم الآلي</h3>
+                    <p>أصبح التعلم الآلي، وخاصة التعلم العميق، هو المنهجية السائدة في الذكاء الاصطناعي، متفوقًا على الأساليب التقليدية القائمة على القواعد.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>طرق تحسين جديدة</h3>
+                    <p>الابتكارات في خوارزميات التحسين المستخدمة في التعلم العميق، مثل Adam وRMSprop، أدت إلى تحسين أداء النماذج وسرعة التدريب بشكل كبير.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- مفارقة مورافيك وتأثير الذكاء الاصطناعي -->
+    <section class="section" id="paradox">
+        <div class="container">
+            <h2 class="section-title">مفارقة مورافيك وتأثير الذكاء الاصطناعي</h2>
+            
+            <div class="concept-cards">
+                <div class="concept-card definition">
+                    <div class="concept-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3>مفارقة مورافيك (1988)</h3>
+                    <p>"من السهل نسبيًا جعل أجهزة الكمبيوتر تُظهر أداءً بمستوى البالغين في اختبارات الذكاء أو لعب الشطرنج، ومن الصعب أو المستحيل منحها مهارات طفل يبلغ من العمر عامًا واحدًا عندما يتعلق الأمر بالإدراك والتنقل."</p>
+                </div>
+
+                <div class="concept-card history">
+                    <div class="concept-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>مثال: القيادة الذاتية</h3>
+                    <p>يمكن للمراهق أن يتعلم القيادة في بضع ساعات بمدخلات قليلة جدًا، لكننا لا نزال لا نمتلك سيارة ذاتية القيادة بالكامل وموثوقة في جميع الظروف. هذا يُبرز التحدي في محاكاة المهارات الحسية والحركية البشرية.</p>
+                </div>
+
+                <div class="concept-card applications">
+                    <div class="concept-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>تأثير الذكاء الاصطناعي</h3>
+                    <p>بمجرد أن تُصبح الآلة جيدة في أداء مهمة معينة، لم تعد هذه المهمة تُعتبر تتطلب الكثير من الذكاء. الحساب كان مُقدرًا، الشطرنج كان يتطلب ذكاءً عاليًا، والتعلم كان فريدًا للبشر - كل هذا تغير.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- تطبيقات الذكاء الاصطناعي اليوم -->
+    <section class="section" id="applications">
+        <div class="container">
+            <h2 class="section-title">تطبيقات الذكاء الاصطناعي اليوم</h2>
+            
+            <div class="concept-cards">
+                <div class="concept-card definition">
+                    <div class="concept-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>الرؤية ومعالجة الصور</h3>
+                    <p>التعرف الضوئي على الحروف (OCR)، اكتشاف الوجه في الهواتف الذكية، أنظمة سلامة المركبات، البحث البصري، وتوليد الصور مثل DALL-E. كل هذه التقنيات تعمل الآن بمستوى يفوق الأداء البشري.</p>
+                </div>
+
+                <div class="concept-card history">
+                    <div class="concept-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>معالجة اللغة الطبيعية</h3>
+                    <p>تحويل النص إلى كلام، تحويل الكلام إلى نص، الترجمة الآلية، وتوليد النصوص. تعمل هذه التقنيات بمستوى قريب من الأداء البشري أو حتى تفوقه، لكن فهم اللغة الحقيقي لا يزال تحديًا.</p>
+                </div>
+
+                <div class="concept-card applications">
+                    <div class="concept-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>الروبوتات</h3>
+                    <p>مركبات المريخ الجوالة، المركبات ذاتية القيادة، المروحيات والطائرات بدون طيار ذاتية القيادة، كرة القدم الروبوتية (RoboCup)، الروبوتات البشرية، والحيوانات الأليفة الروبوتية.</p>
+                </div>
+
+                <div class="concept-card ethics">
+                    <div class="concept-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>الإجابة على الأسئلة</h3>
+                    <p>IBM Watson الذي فاز في برنامج Jeopardy (2011) أظهر قدرات متقدمة في فهم اللغة الطبيعية المعقدة والإجابة على أسئلة تتطلب معرفة واسعة واستدلالًا. اليوم، نماذج اللغة الكبيرة مثل ChatGPT تتجاوز هذه القدرات.</p>
+                </div>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">🚗</div>
+                    <div class="example-title">مستويات القيادة الذاتية</div>
+                    <p><strong>المستوى 1:</strong> مساعدة السائق<br>
+                    <strong>المستوى 2:</strong> أتمتة جزئية<br>
+                    <strong>المستوى 3:</strong> أتمتة مشروطة<br>
+                    <strong>المستوى 4:</strong> أتمتة عالية<br>
+                    <strong>المستوى 5:</strong> أتمتة كاملة</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">💬</div>
+                    <div class="example-title">نماذج اللغة الكبيرة</div>
+                    <p>ChatGPT وBard يُمثلان قفزة نوعية في فهم وإنتاج اللغة الطبيعية. يمكنهما كتابة مقالات، تلخيص نصوص، الإجابة على أسئلة معقدة، وحتى كتابة الأكواد البرمجية.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🎨</div>
+                    <div class="example-title">الذكاء الاصطناعي التوليدي</div>
+                    <p>DALL-E لتوليد الصور من النصوص، Midjourney للفن الرقمي، وGitHub Copilot لكتابة الأكواد. هذه الأدوات تُغير طريقة الإبداع والعمل.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- أخلاقيات وسلامة الذكاء الاصطناعي -->
+    <section class="section" id="ethics">
+        <div class="container">
+            <h2 class="section-title">أخلاقيات وسلامة الذكاء الاصطناعي</h2>
+            
+            <div class="concept-cards">
+                <div class="concept-card definition">
+                    <div class="concept-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>المبادئ الأساسية</h3>
+                    <p>ضمان السلامة، الحد من الاستخدامات الضارة، تحديد المساءلة، تجنب تركيز القوة، دعم حقوق الإنسان، ضمان العدالة، توفير الشفافية، احترام الخصوصية، والتفكير في الآثار على التوظيف.</p>
+                </div>
+
+                <div class="concept-card history">
+                    <div class="concept-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>التحيز الخوارزمي</h3>
+                    <p>أخطاء منهجية ومتكررة في أنظمة الكمبيوتر تُنشئ نتائج غير عادلة. يشمل التحيز الموجود مسبقًا (من البيانات)، التحيز التقني (من القيود)، والتحيز الناشئ (من الاستخدام الجديد).</p>
+                </div>
+
+                <div class="concept-card applications">
+                    <div class="concept-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>سلامة الذكاء الاصطناعي</h3>
+                    <p>منع الحوادث وسوء الاستخدام. يشمل محاذاة الأهداف، منع الآثار الجانبية غير المقصودة، منع اختراق المكافأة، اختبار ومراقبة الأنظمة، وضمان المتانة العدائية.</p>
+                </div>
+
+                <div class="concept-card ethics">
+                    <div class="concept-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>الجهود التنظيمية العالمية</h3>
+                    <p>الاتحاد الأوروبي (GDPR)، أستراليا (مبادئ طوعية)، الولايات المتحدة (الأمر التنفيذي 14110)، وتوصيات من الشركات الكبرى مثل Google. كل منطقة تتبنى مقاربة مختلفة للتنظيم.</p>
+                </div>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">⚖️</div>
+                    <div class="example-title">مثال على التحيز</div>
+                    <p>نظام تقييم طلبات القروض مُدرب على بيانات تاريخية قد يُظهر تحيزًا ضد مجموعات معينة. الحل يتطلب بيانات متنوعة وخوارزميات عادلة.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🔒</div>
+                    <div class="example-title">مثال على الخصوصية</div>
+                    <p>أنظمة التعرف على الوجه في الأماكن العامة تُثير قضايا خصوصية. التوازن بين الأمان والخصوصية يتطلب تنظيمًا دقيقًا.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🎯</div>
+                    <div class="example-title">مثال على محاذاة الأهداف</div>
+                    <p>روبوت تنظيف بهدف "تنظيف الغرفة بأسرع وقت" قد يُتلف الأثاث. الحل يتطلب أهدافًا أكثر تفصيلاً تتضمن القيود الأخلاقية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- النظرة المستقبلية -->
+    <section class="section" id="future">
+        <div class="container">
+            <h2 class="section-title">النظرة المستقبلية</h2>
+            
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>تقنية على وشك قفزات كبيرة</h3>
+                    <p>الذكاء الاصطناعي يُشبه التقنيات التحويلية السابقة مثل الكهرباء والإنترنت والاتصالات المتنقلة، التي كان لها تأثير عميق على حياتنا وعملنا. نتوقع تأثيرًا مماثلاً أو أكبر.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>مكاسب غير مسبوقة في الإنتاجية</h3>
+                    <p>يمكن أن نتوقع تحسينات كبيرة في الإنتاجية من الذكاء الاصطناعي الضيق الأفضل. هذا سيُؤثر على جميع القطاعات من الرعاية الصحية إلى التعليم والنقل.</p>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>تعلم تقنيات بسيطة</h3>
+                    <p>هذا المساق سيُقدم تقنيات بسيطة لإنشاء وكلاء أذكياء، مما يُمكن الطلاب من المشاركة في هذا المجال الواعد والمساهمة في تطويره.</p>
+                </div>
+            </div>
+
+            <div class="examples-grid">
+                <div class="example-card fade-in">
+                    <div class="example-icon">🏥</div>
+                    <div class="example-title">الرعاية الصحية</div>
+                    <p>تشخيص الأمراض بدقة أعلى من الأطباء، اكتشاف الأدوية الجديدة بسرعة أكبر، والطب الشخصي المُخصص لكل مريض.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">🚗</div>
+                    <div class="example-title">النقل</div>
+                    <p>السيارات ذاتية القيادة بالكامل، تحسين تدفق المرور، تقليل الحوادث، وأنظمة نقل عام أكثر كفاءة.</p>
+                </div>
+
+                <div class="example-card fade-in">
+                    <div class="example-icon">📚</div>
+                    <div class="example-title">التعليم</div>
+                    <p>التعلم المُخصص لكل طالب، مساعدين تعليميين أذكياء، وأنظمة تقييم تكيفية تُحسن من تجربة التعلم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الختم -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h2 class="footer-title">تم بواسطة اللجنة العلمية لعلوم الحاسوب 24</h2>
+            <p class="footer-subtitle">
+                شرح شامل ومفصل لمحاضرة مقدمة في الذكاء الاصطناعي
+            </p>
+            <p class="footer-note">
+                جميع الحقوق محفوظة © 2025 - تم إنشاء هذا المحتوى لأغراض تعليمية
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // تأثيرات التمرير
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // تأثير الظهور التدريجي
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+
+        // تأثيرات تفاعلية للبطاقات
+        document.querySelectorAll('.card, .concept-card, .example-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // تأثيرات للجدول
+        document.querySelectorAll('.comparison-table tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f1f3f4';
+                this.style.transform = 'scale(1.01)';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // تأثيرات للخط الزمني
+        document.querySelectorAll('.timeline-content').forEach(content => {
+            content.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 15px 40px rgba(0,0,0,0.2)';
+            });
+            
+            content.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            });
+        });
+
+        // تحميل الصفحة
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '1';
+            
+            // تأثير الظهور الأولي
+            setTimeout(() => {
+                const initialElements = document.querySelectorAll('.fade-in');
+                initialElements.forEach((element, index) => {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, index * 100);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+
