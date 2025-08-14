@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive AI Definitions - Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .lecture-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .lecture-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .lecture-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lecture-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .definition-item {
+            background: #f8f9fa;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .definition-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), transparent);
+            transition: width 0.3s ease;
+        }
+
+        .definition-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .definition-item:hover::before {
+            width: 100%;
+        }
+
+        .definition-term {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .definition-text {
+            color: #555;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .definition-reference {
+            color: #667eea;
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .lecture-title {
+                font-size: 1.5rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Comprehensive AI Definitions</h1>
+            <p>Complete Study Guide for Artificial Intelligence Lectures</p>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="total-definitions">0</div>
+                <div class="stat-label">Total Definitions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Lectures Covered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="lecture1-count">0</div>
+                <div class="stat-label">Intro to AI</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="lecture2-count">0</div>
+                <div class="stat-label">AI Agents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="lecture3-count">0</div>
+                <div class="stat-label">AI Search</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search definitions... (e.g., 'agent', 'search', 'rational')">
+        </div>
+
+        <div class="no-results" id="noResults">
+            <p>No definitions found matching your search.</p>
+        </div>
+
+        <div class="lecture-section fade-in" data-lecture="1">
+            <h2 class="lecture-title">
+                <span class="lecture-icon">1</span>
+                Lecture 1: Introduction to Artificial Intelligence
+            </h2>
+            
+            <div class="definition-item" data-term="artificial intelligence">
+                <div class="definition-term">Artificial Intelligence (AI)</div>
+                <div class="definition-text">Computer systems that can simulate tasks that typically require human intelligence, like learning, problem-solving, and decision-making.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 2]</div>
+            </div>
+
+            <div class="definition-item" data-term="agent intelligent agent">
+                <div class="definition-term">Agent/Intelligent Agent</div>
+                <div class="definition-text">A machine that solves problems that are challenging for humans. Anything that can be viewed as perceiving its environment through sensors and acting upon that environment through actuators.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 4]</div>
+            </div>
+
+            <div class="definition-item" data-term="narrow ai">
+                <div class="definition-term">Narrow AI</div>
+                <div class="definition-text">Focuses on intelligent agents to solve a specific problem.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 4]</div>
+            </div>
+
+            <div class="definition-item" data-term="artificial general intelligence agi">
+                <div class="definition-term">Artificial General Intelligence (AGI)</div>
+                <div class="definition-text">A hypothetical intelligent agent which can understand or learn any intellectual task that human beings can.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 4]</div>
+            </div>
+
+            <div class="definition-item" data-term="turing test">
+                <div class="definition-term">Turing Test</div>
+                <div class="definition-text">A test that tries to define what acting like a human means. It assesses a machine's ability to exhibit intelligent behavior equivalent to, or indistinguishable from, that of a human.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 6]</div>
+            </div>
+
+            <div class="definition-item" data-term="natural language processing nlp">
+                <div class="definition-term">Natural Language Processing (NLP)</div>
+                <div class="definition-text">An AI area focused on enabling computers to understand, interpret, and generate human language.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 6]</div>
+            </div>
+
+            <div class="definition-item" data-term="knowledge representation">
+                <div class="definition-term">Knowledge Representation</div>
+                <div class="definition-text">An AI area concerned with how knowledge is stored and organized in a way that allows AI systems to use it for reasoning.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 6]</div>
+            </div>
+
+            <div class="definition-item" data-term="automated reasoning">
+                <div class="definition-term">Automated Reasoning</div>
+                <div class="definition-text">An AI area focused on enabling computers to draw conclusions from existing knowledge using logical inference.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 6]</div>
+            </div>
+
+            <div class="definition-item" data-term="machine learning ml">
+                <div class="definition-term">Machine Learning (ML)</div>
+                <div class="definition-text">A subfield of AI that allows computers to learn from data without explicit programming.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 2]</div>
+            </div>
+
+            <div class="definition-item" data-term="rationality">
+                <div class="definition-term">Rationality</div>
+                <div class="definition-text">Drawing sensible conclusions from facts, logic, and data.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 8]</div>
+            </div>
+
+            <div class="definition-item" data-term="acting rational">
+                <div class="definition-term">Acting Rational</div>
+                <div class="definition-text">Trying to achieve the "best" outcome, often measured by the economic concept of utility.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 10]</div>
+            </div>
+
+            <div class="definition-item" data-term="moravec paradox">
+                <div class="definition-term">Moravec's Paradox</div>
+                <div class="definition-text">The observation that it is comparatively easy to make computers exhibit adult-level performance on intelligence tests or playing checkers, and difficult or impossible to give them the skills of a one-year-old when it comes to perception and mobility.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="ai effect">
+                <div class="definition-term">AI Effect</div>
+                <div class="definition-text">As soon as a machine gets good at performing some task, the task is no longer considered to require much intelligence.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="algorithmic bias">
+                <div class="definition-term">Algorithmic Bias</div>
+                <div class="definition-text">Systematic and repeatable errors in a computer system that create unfair outcomes, such as privileging one arbitrary group of users over others.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 33]</div>
+            </div>
+
+            <div class="definition-item" data-term="ai safety">
+                <div class="definition-term">AI Safety</div>
+                <div class="definition-text">Preventing accidents, misuse, or other harmful consequences of AI.</div>
+                <div class="definition-reference">[AI_introCh1.pdf, p. 34]</div>
+            </div>
+        </div>
+
+        <div class="lecture-section fade-in" data-lecture="2">
+            <h2 class="lecture-title">
+                <span class="lecture-icon">2</span>
+                Lecture 2: AI Agents
+            </h2>
+            
+            <div class="definition-item" data-term="agent">
+                <div class="definition-term">Agent</div>
+                <div class="definition-text">Anything that can be viewed as perceiving its environment through sensors and acting upon that environment through actuators.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 3]</div>
+            </div>
+
+            <div class="definition-item" data-term="agent function">
+                <div class="definition-term">Agent Function</div>
+                <div class="definition-text">A mathematical function that maps from the set of all possible percept sequences P* to the set of actions A (f: P* → A).</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 4]</div>
+            </div>
+
+            <div class="definition-item" data-term="agent program">
+                <div class="definition-term">Agent Program</div>
+                <div class="definition-text">A concrete implementation of the agent function for a given physical system.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 4]</div>
+            </div>
+
+            <div class="definition-item" data-term="rational agent">
+                <div class="definition-term">Rational Agent</div>
+                <div class="definition-text">For each possible percept sequence, a rational agent should select an action that maximizes its expected performance measure, given the evidence provided by the percept sequence and the agent's built-in knowledge.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 9]</div>
+            </div>
+
+            <div class="definition-item" data-term="performance measure">
+                <div class="definition-term">Performance Measure</div>
+                <div class="definition-text">An objective criterion for success of an agent's behavior (often called utility function or reward function).</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 9]</div>
+            </div>
+
+            <div class="definition-item" data-term="peas">
+                <div class="definition-term">PEAS (Performance measure, Environment, Actuators, Sensors)</div>
+                <div class="definition-text">A framework for specifying the task environment of an agent. Performance measure defines utility and rational actions; Environment includes components and rules; Actuators are what's available to act; Sensors define percepts.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 13]</div>
+            </div>
+
+            <div class="definition-item" data-term="fully observable environment">
+                <div class="definition-term">Fully Observable Environment</div>
+                <div class="definition-text">The agent's sensors give it access to the complete state of the environment.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="partially observable environment">
+                <div class="definition-term">Partially Observable Environment</div>
+                <div class="definition-text">The agent cannot see all aspects of the environment.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="deterministic environment">
+                <div class="definition-term">Deterministic Environment</div>
+                <div class="definition-text">Changes in the environment are completely determined by the current state of the environment and the agent's action.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="stochastic environment">
+                <div class="definition-term">Stochastic Environment</div>
+                <div class="definition-text">Changes cannot be determined from the current state and the action (there is some randomness).</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="strategic environment">
+                <div class="definition-term">Strategic Environment</div>
+                <div class="definition-text">The environment is stochastic and adversarial. It chooses actions strategically to harm the agent.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="known environment">
+                <div class="definition-term">Known Environment</div>
+                <div class="definition-text">The agent knows the rules of the environment and can predict the outcome of actions.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="unknown environment">
+                <div class="definition-term">Unknown Environment</div>
+                <div class="definition-text">The agent cannot predict the outcome of actions.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 17]</div>
+            </div>
+
+            <div class="definition-item" data-term="static environment">
+                <div class="definition-term">Static Environment</div>
+                <div class="definition-text">The environment is not changing while the agent is deliberating.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="dynamic environment">
+                <div class="definition-term">Dynamic Environment</div>
+                <div class="definition-text">The environment is changing while the agent is deliberating.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="semi-dynamic environment">
+                <div class="definition-term">Semi-dynamic Environment</div>
+                <div class="definition-text">The environment is static, but the agent's performance score depends on how fast it acts.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="discrete environment">
+                <div class="definition-term">Discrete Environment</div>
+                <div class="definition-text">The environment provides a fixed number of distinct percepts, actions, and environment states.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="continuous environment">
+                <div class="definition-term">Continuous Environment</div>
+                <div class="definition-text">Percepts, actions, state variables or time are continuous leading to an infinite state, percept or action space.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="episodic environment">
+                <div class="definition-term">Episodic Environment</div>
+                <div class="definition-text">Episode (event) = a self-contained sequence of actions. The agent's choice of action in one episode does not affect the next episodes.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="sequential environment">
+                <div class="definition-term">Sequential Environment</div>
+                <div class="definition-text">Actions now affect the outcomes later.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="single agent environment">
+                <div class="definition-term">Single Agent Environment</div>
+                <div class="definition-text">An agent operating by itself in an environment.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="multi-agent environment">
+                <div class="definition-term">Multi-agent Environment</div>
+                <div class="definition-text">Agent cooperate or compete in the same environment.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 18]</div>
+            </div>
+
+            <div class="definition-item" data-term="simple reflex agent">
+                <div class="definition-term">Simple Reflex Agent</div>
+                <div class="definition-text">Uses only built-in knowledge in the form of rules that select action only based on the current percept.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 23]</div>
+            </div>
+
+            <div class="definition-item" data-term="model-based reflex agent">
+                <div class="definition-term">Model-based Reflex Agent</div>
+                <div class="definition-text">Maintains a state variable to keep track of aspects of the environment that cannot be currently observed (has memory and knows how the environment reacts to actions).</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 24]</div>
+            </div>
+
+            <div class="definition-item" data-term="transition function">
+                <div class="definition-term">Transition Function</div>
+                <div class="definition-text">Describes how the environment changes due to system dynamics and agent actions (S' = T(S, A)).</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 25]</div>
+            </div>
+
+            <div class="definition-item" data-term="state space">
+                <div class="definition-term">State Space</div>
+                <div class="definition-text">The set of all possible states.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 26]</div>
+            </div>
+
+            <div class="definition-item" data-term="goal-based agent">
+                <div class="definition-term">Goal-based Agent</div>
+                <div class="definition-text">An agent that has the task to reach a defined goal state and is then finished. Uses search algorithms to plan actions.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 29]</div>
+            </div>
+
+            <div class="definition-item" data-term="utility-based agent">
+                <div class="definition-term">Utility-based Agent</div>
+                <div class="definition-text">An agent that uses a utility function to evaluate the desirability of each possible state. Chooses actions to stay in desirable states.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 30]</div>
+            </div>
+
+            <div class="definition-item" data-term="learning element">
+                <div class="definition-term">Learning Element</div>
+                <div class="definition-text">Modifies the agent program to improve its performance.</div>
+                <div class="definition-reference">[AI_agentsCh2.pdf, p. 31]</div>
+            </div>
+        </div>
+
+        <div class="lecture-section fade-in" data-lecture="3">
+            <h2 class="lecture-title">
+                <span class="lecture-icon">3</span>
+                Lecture 3: AI Search
+            </h2>
+            
+            <div class="definition-item" data-term="search problem">
+                <div class="definition-term">Search Problem</div>
+                <div class="definition-text">The problem of designing goal-based agents in known, fully observable, and deterministic environments.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 2]</div>
+            </div>
+
+            <div class="definition-item" data-term="initial state">
+                <div class="definition-term">Initial State</div>
+                <div class="definition-text">The starting state description for the search.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 5]</div>
+            </div>
+
+            <div class="definition-item" data-term="actions">
+                <div class="definition-term">Actions</div>
+                <div class="definition-text">The set of possible actions available from a given state.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 5]</div>
+            </div>
+
+            <div class="definition-item" data-term="transition model">
+                <div class="definition-term">Transition Model</div>
+                <div class="definition-text">A function that defines the new state resulting from performing an action in the current state.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 5]</div>
+            </div>
+
+            <div class="definition-item" data-term="goal state">
+                <div class="definition-term">Goal State</div>
+                <div class="definition-text">The state description that the agent aims to reach.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 5]</div>
+            </div>
+
+            <div class="definition-item" data-term="path cost">
+                <div class="definition-term">Path Cost</div>
+                <div class="definition-text">The sum of step costs to reach a particular state from the initial state.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 5]</div>
+            </div>
+
+            <div class="definition-item" data-term="optimal solution">
+                <div class="definition-term">Optimal Solution</div>
+                <div class="definition-text">The sequence of actions (or equivalently a sequence of states) that gives the lowest path cost for reaching the goal.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 5]</div>
+            </div>
+
+            <div class="definition-item" data-term="state space">
+                <div class="definition-term">State Space</div>
+                <div class="definition-text">The set of all possible states of the environment and some states are marked as goal states. It is the number of different states the agent and environment can be in.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 4, 21]</div>
+            </div>
+
+            <div class="definition-item" data-term="search tree">
+                <div class="definition-term">Search Tree</div>
+                <div class="definition-text">A "what if" tree of possible actions and outcomes (states) superimposed on the state space graph.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 13]</div>
+            </div>
+
+            <div class="definition-item" data-term="root node">
+                <div class="definition-term">Root Node</div>
+                <div class="definition-text">Represents the initial state in a search tree.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 13]</div>
+            </div>
+
+            <div class="definition-item" data-term="uninformed search strategies">
+                <div class="definition-term">Uninformed Search Strategies</div>
+                <div class="definition-text">Search algorithms where the agent is not provided information about how close a state is to the goal state. It blindly searches following a simple strategy until it finds the goal state by chance.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 28]</div>
+            </div>
+
+            <div class="definition-item" data-term="breadth-first search bfs">
+                <div class="definition-term">Breadth-First Search (BFS)</div>
+                <div class="definition-text">An uninformed search strategy that expands the shallowest unexpanded node in the frontier (FIFO).</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 29]</div>
+            </div>
+
+            <div class="definition-item" data-term="uniform-cost search ucs">
+                <div class="definition-term">Uniform-Cost Search (UCS)</div>
+                <div class="definition-text">An uninformed search strategy that expands the node in the frontier with the least path cost from the initial state (Dijkstra's shortest path algorithm).</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 35]</div>
+            </div>
+
+            <div class="definition-item" data-term="depth-first search dfs">
+                <div class="definition-term">Depth-First Search (DFS)</div>
+                <div class="definition-text">An uninformed search strategy that expands the deepest unexpanded node in the frontier (LIFO).</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 38]</div>
+            </div>
+
+            <div class="definition-item" data-term="iterative deepening search ids">
+                <div class="definition-term">Iterative Deepening Search (IDS)</div>
+                <div class="definition-text">A search strategy that combines the benefits of BFS and DFS by performing a series of depth-limited DFS searches with increasing depth limits.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 44]</div>
+            </div>
+
+            <div class="definition-item" data-term="completeness">
+                <div class="definition-term">Completeness (of a search strategy)</div>
+                <div class="definition-text">Does it always find a solution if one exists?</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 19]</div>
+            </div>
+
+            <div class="definition-item" data-term="optimality">
+                <div class="definition-term">Optimality (of a search strategy)</div>
+                <div class="definition-text">Does it always find a least-cost solution?</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 19]</div>
+            </div>
+
+            <div class="definition-item" data-term="time complexity">
+                <div class="definition-term">Time Complexity (of a search strategy)</div>
+                <div class="definition-text">How long does it take?</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 19]</div>
+            </div>
+
+            <div class="definition-item" data-term="space complexity">
+                <div class="definition-term">Space Complexity (of a search strategy)</div>
+                <div class="definition-text">How much memory does it need?</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 19]</div>
+            </div>
+
+            <div class="definition-item" data-term="branching factor">
+                <div class="definition-term">Branching Factor (b)</div>
+                <div class="definition-text">Maximum number of successor nodes for a parent in the search tree.</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 19]</div>
+            </div>
+
+            <div class="definition-item" data-term="depth">
+                <div class="definition-term">Depth (d)</div>
+                <div class="definition-text">Depth of the optimal solution (number of actions needed).</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 19]</div>
+            </div>
+
+            <div class="definition-item" data-term="maximum depth">
+                <div class="definition-term">Maximum Depth (m)</div>
+                <div class="definition-text">The number of actions in any path (may be infinite with loops).</div>
+                <div class="definition-reference">[AI_searchCh3.pdf, p. 19]</div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>
+تم بواسطة اللجنة العلمية لعلوم الحاسوب 24
+            </p>
+        </footer>
+    </div>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        const definitionItems = document.querySelectorAll('.definition-item');
+        const lectureSections = document.querySelectorAll('.lecture-section');
+        const noResults = document.getElementById('noResults');
+
+        searchBox.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let hasResults = false;
+
+            if (searchTerm === '') {
+                // Show all items and sections
+                definitionItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+                lectureSections.forEach(section => {
+                    section.style.display = 'block';
+                });
+                noResults.style.display = 'none';
+                return;
+            }
+
+            lectureSections.forEach(section => {
+                let sectionHasResults = false;
+                const items = section.querySelectorAll('.definition-item');
+                
+                items.forEach(item => {
+                    const term = item.getAttribute('data-term').toLowerCase();
+                    const termText = item.querySelector('.definition-term').textContent.toLowerCase();
+                    const definitionText = item.querySelector('.definition-text').textContent.toLowerCase();
+                    
+                    if (term.includes(searchTerm) || termText.includes(searchTerm) || definitionText.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        sectionHasResults = true;
+                        hasResults = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                section.style.display = sectionHasResults ? 'block' : 'none';
+            });
+
+            noResults.style.display = hasResults ? 'none' : 'block';
+        });
+
+        // Count definitions and update stats
+        function updateStats() {
+            const lecture1Items = document.querySelectorAll('[data-lecture="1"] .definition-item').length;
+            const lecture2Items = document.querySelectorAll('[data-lecture="2"] .definition-item').length;
+            const lecture3Items = document.querySelectorAll('[data-lecture="3"] .definition-item').length;
+            const totalItems = lecture1Items + lecture2Items + lecture3Items;
+
+            document.getElementById('total-definitions').textContent = totalItems;
+            document.getElementById('lecture1-count').textContent = lecture1Items;
+            document.getElementById('lecture2-count').textContent = lecture2Items;
+            document.getElementById('lecture3-count').textContent = lecture3Items;
+        }
+
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Highlight search terms
+        function highlightSearchTerm(text, term) {
+            if (!term) return text;
+            const regex = new RegExp(`(${term})`, 'gi');
+            return text.replace(regex, '<mark>$1</mark>');
+        }
+
+        // Enhanced search with highlighting
+        searchBox.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            // Remove previous highlights
+            definitionItems.forEach(item => {
+                const termElement = item.querySelector('.definition-term');
+                const textElement = item.querySelector('.definition-text');
+                termElement.innerHTML = termElement.textContent;
+                textElement.innerHTML = textElement.textContent;
+            });
+
+            if (searchTerm === '') {
+                definitionItems.forEach(item => item.style.display = 'block');
+                lectureSections.forEach(section => section.style.display = 'block');
+                noResults.style.display = 'none';
+                return;
+            }
+
+            let hasResults = false;
+
+            lectureSections.forEach(section => {
+                let sectionHasResults = false;
+                const items = section.querySelectorAll('.definition-item');
+                
+                items.forEach(item => {
+                    const term = item.getAttribute('data-term').toLowerCase();
+                    const termElement = item.querySelector('.definition-term');
+                    const textElement = item.querySelector('.definition-text');
+                    const termText = termElement.textContent.toLowerCase();
+                    const definitionText = textElement.textContent.toLowerCase();
+                    
+                    if (term.includes(searchTerm) || termText.includes(searchTerm) || definitionText.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        sectionHasResults = true;
+                        hasResults = true;
+                        
+                        // Highlight matching terms
+                        if (termText.includes(searchTerm)) {
+                            termElement.innerHTML = highlightSearchTerm(termElement.textContent, searchTerm);
+                        }
+                        if (definitionText.includes(searchTerm)) {
+                            textElement.innerHTML = highlightSearchTerm(textElement.textContent, searchTerm);
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                section.style.display = sectionHasResults ? 'block' : 'none';
+            });
+
+            noResults.style.display = hasResults ? 'none' : 'block';
+        });
+
+        // Initialize stats
+        updateStats();
+
+        // Add click effects to definition items
+        definitionItems.forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                searchBox.focus();
+            }
+        });
+
+        // Add focus to search box on page load
+        window.addEventListener('load', () => {
+            searchBox.focus();
+        });
+    </script>
+</body>
+</html>
+
