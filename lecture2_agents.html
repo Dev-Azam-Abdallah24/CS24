@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحاضرة الثانية: وكلاء الذكاء الاصطناعي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(116, 185, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #74b9ff, #0984e3);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .card p {
+            color: #555;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #74b9ff;
+        }
+
+        .concept-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .concept-list li {
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #74b9ff;
+            transition: all 0.3s ease;
+        }
+
+        .concept-list li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .peas-section {
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .peas-section h3 {
+            color: #2d3436;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        .peas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .peas-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .peas-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .peas-item h4 {
+            color: #e17055;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .agent-hierarchy {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .agent-hierarchy h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .hierarchy-level {
+            background: rgba(255, 255, 255, 0.2);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #fdcb6e;
+            transition: all 0.3s ease;
+        }
+
+        .hierarchy-level:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(10px);
+        }
+
+        .exam-tips {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .exam-tips h3 {
+            color: #d35400;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid #e67e22;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .peas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .interactive-element {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            transform: scale(1.02);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .formula {
+            background: #2d3436;
+            color: #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>المحاضرة الثانية: وكلاء الذكاء الاصطناعي</h1>
+            <p>فهم مفهوم الوكيل الذكي وأنواعه وكيفية عمله في البيئات المختلفة</p>
+        </header>
+
+        <div class="content-grid">
+            <div class="card interactive-element">
+                <h2><span class="icon">🤖</span>تعريف الوكيل الذكي</h2>
+                <p>الوكيل هو أي شيء يمكنه إدراك بيئته من خلال أجهزة الاستشعار والتصرف في تلك البيئة من خلال المحركات. الوكيل الذكي يتخذ قرارات عقلانية لتحقيق أهدافه.</p>
+                <div class="highlight">
+                    <strong>سؤال محتمل في الاختبار:</strong> "An ______________ is anything that can be viewed as perceiving its environment through sensors and acting upon that environment through actuators."<br>
+                    <strong>الإجابة:</strong> Agent
+                </div>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">⚙️</span>دالة الوكيل</h2>
+                <p>دالة الوكيل هي خريطة رياضية مجردة تربط بين تسلسلات الإدراك والإجراءات. تحدد هذه الدالة كيف يتصرف الوكيل في كل موقف.</p>
+                <div class="formula">
+                    f: P* → A
+                </div>
+                <p>حيث P* هي مجموعة جميع تسلسلات الإدراك الممكنة، و A هي مجموعة الإجراءات المتاحة.</p>
+                <div class="highlight">
+                    <strong>سؤال محتمل في الاختبار:</strong> "The ______________ maps from the set of all possible percept sequences P* to the set of actions A formulated as an abstract mathematical function."<br>
+                    <strong>الإجابة:</strong> Agent function
+                </div>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">🧠</span>العقلانية في الوكلاء</h2>
+                <p>الوكيل العقلاني هو الذي يختار الإجراء الذي يزيد من مقياس أدائه المتوقع، بناءً على الأدلة المتاحة من تسلسل الإدراك ومعرفته المدمجة.</p>
+                <div class="formula">
+                    a = argmax E[U(a)]
+                </div>
+                <ul class="concept-list">
+                    <li><strong>العقلانية ≠ العلم بكل شيء:</strong> الوكلاء العقلانيون قد يرتكبون أخطاء</li>
+                    <li><strong>العقلانية ≠ الكمال:</strong> يزيدون النتائج المتوقعة وليس الفعلية</li>
+                    <li><strong>التعلم عقلاني:</strong> استخدام الإدراك لتحسين المعرفة</li>
+                </ul>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">🔄</span>نموذج الانتقال</h2>
+                <p>نموذج الانتقال يصف كيف تتغير البيئة استجابة لإجراءات الوكيل. يمكن تمثيله كدالة رياضية أو جدول انتقال.</p>
+                <div class="formula">
+                    s' = T(s, a)
+                </div>
+                <p>حيث s هي الحالة الحالية، a هو الإجراء المتخذ، و s' هي الحالة الجديدة.</p>
+            </div>
+        </div>
+
+        <div class="peas-section">
+            <h3>🎯 إطار عمل PEAS</h3>
+            <p style="text-align: center; color: #2d3436; margin-bottom: 20px;">
+                إطار عمل PEAS يساعد في تحليل وتصميم الوكلاء الأذكياء من خلال تحديد أربعة عناصر أساسية
+            </p>
+            <div class="peas-grid">
+                <div class="peas-item">
+                    <h4>Performance Measure</h4>
+                    <p>قياس الأداء - المعايير التي تحدد مدى نجاح الوكيل في تحقيق أهدافه</p>
+                </div>
+                <div class="peas-item">
+                    <h4>Environment</h4>
+                    <p>البيئة - المحيط الذي يعمل فيه الوكيل ويتفاعل معه</p>
+                </div>
+                <div class="peas-item">
+                    <h4>Actuators</h4>
+                    <p>المحركات - الأدوات التي يستخدمها الوكيل للتأثير على البيئة</p>
+                </div>
+                <div class="peas-item">
+                    <h4>Sensors</h4>
+                    <p>أجهزة الاستشعار - الأدوات التي يستخدمها الوكيل لإدراك البيئة</p>
+                </div>
+            </div>
+            <div class="highlight" style="margin-top: 20px;">
+                <strong>مثال للاختبار - سائق التاكسي الآلي:</strong><br>
+                <strong>P:</strong> السلامة، السرعة، الراحة، الأرباح<br>
+                <strong>E:</strong> الطرق، المرور، المشاة، الطقس<br>
+                <strong>A:</strong> المقود، الفرامل، الوقود، الإشارات<br>
+                <strong>S:</strong> الكاميرات، الرادار، GPS، العدادات
+            </div>
+        </div>
+
+        <div class="agent-hierarchy">
+            <h3>🏗️ التسلسل الهرمي لأنواع الوكلاء</h3>
+            <div class="hierarchy-level">
+                <h4>1. الوكلاء الانعكاسيون البسيطون (Simple Reflex Agents)</h4>
+                <p>يتصرفون بناءً على الإدراك الحالي فقط، باستخدام قواعد "إذا-إذن" بسيطة. سريعون لكن محدودون.</p>
+            </div>
+            <div class="hierarchy-level">
+                <h4>2. الوكلاء القائمون على النموذج (Model-based Reflex Agents)</h4>
+                <p>يحتفظون بحالة داخلية لتتبع أجزاء البيئة غير المرئية. يستخدمون نموذج انتقال لتحديث حالتهم.</p>
+            </div>
+            <div class="hierarchy-level">
+                <h4>3. الوكلاء القائمون على الهدف (Goal-based Agents)</h4>
+                <p>يسعون لتحقيق أهداف محددة. يستخدمون خوارزميات البحث والتخطيط للوصول إلى الحالات المرغوبة.</p>
+            </div>
+            <div class="hierarchy-level">
+                <h4>4. الوكلاء القائمون على المنفعة (Utility-based Agents)</h4>
+                <p>يستخدمون دالة منفعة لتقييم مدى رغبة الحالات المختلفة. يزيدون المنفعة المتوقعة على المدى الطويل.</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card interactive-element">
+                <h2><span class="icon">📚</span>التعلم في الوكلاء</h2>
+                <p>الوكلاء التي تتعلم تحتوي على عنصر تعلم يعدل برنامج الوكيل لتحسين الأداء. يشمل هذا:</p>
+                <ul class="concept-list">
+                    <li><strong>عنصر الأداء:</strong> ينفذ الإجراءات</li>
+                    <li><strong>عنصر التعلم:</strong> يحسن الأداء</li>
+                    <li><strong>عنصر النقد:</strong> يقيم الأداء</li>
+                    <li><strong>مولد المشاكل:</strong> يقترح إجراءات استكشافية</li>
+                </ul>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">🏠</span>مثال: مكنسة الروبوت الذكية</h2>
+                <p>مكنسة الروبوت الحديثة مثال ممتاز على الوكيل الذكي المتعدد الأنواع:</p>
+                <ul class="concept-list">
+                    <li><strong>انعكاسي بسيط:</strong> تنظف عند اكتشاف الأوساخ</li>
+                    <li><strong>قائم على النموذج:</strong> تتذكر الخريطة والمناطق المنظفة</li>
+                    <li><strong>قائم على الهدف:</strong> تسعى لتنظيف كامل المنزل</li>
+                    <li><strong>قائم على المنفعة:</strong> تحسن كفاءة الطاقة والوقت</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam-tips pulse">
+            <h3>🎓 نصائح للاختبار من هذه المحاضرة</h3>
+            <div class="tip-item">
+                <strong>احفظ تعريف الوكيل ودالة الوكيل:</strong> هذان المفهومان أساسيان وسيظهران في أسئلة املأ الفراغ.
+            </div>
+            <div class="tip-item">
+                <strong>فهم إطار عمل PEAS:</strong> تدرب على تطبيق PEAS على سيناريوهات مختلفة، خاصة سائق التاكسي الآلي.
+            </div>
+            <div class="tip-item">
+                <strong>أنواع الوكلاء:</strong> تأكد من فهم الفروق بين الأنواع الأربعة ومتى يستخدم كل نوع.
+            </div>
+            <div class="tip-item">
+                <strong>العقلانية مقابل الكمال:</strong> فهم أن الوكيل العقلاني يزيد النتائج المتوقعة وليس الفعلية.
+            </div>
+            <div class="tip-item">
+                <strong>أمثلة عملية:</strong> فكر في أمثلة من الحياة الواقعية لكل نوع من أنواع الوكلاء.
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>تم إعداد هذا المحتوى بناءً على تحليل نمط أسئلة الدكتور والمحاضرات المقدمة</p>
+        </footer>
+    </div>
+
+    <script>
+        // إضافة تفاعلية للعناصر
+        document.querySelectorAll('.interactive-element').forEach(element => {
+            element.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // تأثير التمرير السلس للقوائم
+        document.querySelectorAll('.concept-list li').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#e3f2fd';
+                this.style.borderLeftColor = '#2196f3';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '#f8f9fa';
+                this.style.borderLeftColor = '#74b9ff';
+            });
+        });
+
+        // تأثير التمرير للمستويات الهرمية
+        document.querySelectorAll('.hierarchy-level').forEach(level => {
+            level.addEventListener('mouseenter', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.4)';
+            });
+            
+            level.addEventListener('mouseleave', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.2)';
+            });
+        });
+
+        // تأثير PEAS
+        document.querySelectorAll('.peas-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.background = 'rgba(255, 255, 255, 1)';
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.9)';
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // تأثير الظهور التدريجي عند التمرير
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .peas-section, .agent-hierarchy').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحاضرة الأولى: مقدمة في الذكاء الاصطناعي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .card p {
+            color: #555;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .concept-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .concept-list li {
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .concept-list li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .exam-tips {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .exam-tips h3 {
+            color: #d35400;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid #e67e22;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+
+        .interactive-element {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            transform: scale(1.02);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>المحاضرة الأولى: مقدمة في الذكاء الاصطناعي</h1>
+            <p>فهم الأسس والمفاهيم الجوهرية في عالم الذكاء الاصطناعي</p>
+        </header>
+
+        <div class="content-grid">
+            <div class="card interactive-element">
+                <h2><span class="icon">🤖</span>تعريف الذكاء الاصطناعي</h2>
+                <p>الذكاء الاصطناعي هو محاكاة الذكاء البشري في الآلات المبرمجة للتفكير والتعلم مثل البشر. يشمل هذا المجال تطوير أنظمة حاسوبية قادرة على أداء مهام تتطلب عادة ذكاءً بشرياً.</p>
+                <div class="highlight">
+                    <strong>نقطة مهمة للاختبار:</strong> تذكر أن الذكاء الاصطناعي يهدف إلى إنشاء وكلاء أذكياء قادرين على حل المشاكل المعقدة.
+                </div>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">📚</span>تاريخ الذكاء الاصطناعي</h2>
+                <p>بدأ الذكاء الاصطناعي كمفهوم في مؤتمر دارتموث عام 1956. مر المجال بعدة مراحل تطوير، من الأنظمة القائمة على القواعد إلى التعلم الآلي الحديث والشبكات العصبية العميقة.</p>
+                <ul class="concept-list">
+                    <li><strong>1956:</strong> مؤتمر دارتموث - ولادة مصطلح "الذكاء الاصطناعي"</li>
+                    <li><strong>1974-1980:</strong> شتاء الذكاء الاصطناعي الأول</li>
+                    <li><strong>1987-1993:</strong> شتاء الذكاء الاصطناعي الثاني</li>
+                    <li><strong>2010-الآن:</strong> ثورة التعلم العميق</li>
+                </ul>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">🎯</span>اختبار تورينج</h2>
+                <p>اختبار تورينج هو اختبار لقدرة الآلة على إظهار سلوك ذكي مكافئ أو لا يمكن تمييزه عن سلوك الإنسان. إذا لم يتمكن المقيم البشري من التمييز بين الآلة والإنسان، فإن الآلة تجتاز الاختبار.</p>
+                <div class="highlight">
+                    <strong>سؤال محتمل في الاختبار:</strong> "The ______________ tries to define what acting like a human means."<br>
+                    <strong>الإجابة:</strong> Turing Test
+                </div>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">🌍</span>تصنيف البيئات</h2>
+                <p>البيئات في الذكاء الاصطناعي تصنف حسب عدة معايير مهمة لفهم كيفية عمل الوكلاء الأذكياء:</p>
+                <ul class="concept-list">
+                    <li><strong>ملاحظة كاملة/جزئية:</strong> هل يمكن للوكيل رؤية البيئة بالكامل؟</li>
+                    <li><strong>حتمية/عشوائية:</strong> هل النتائج قابلة للتنبؤ؟</li>
+                    <li><strong>ثابتة/ديناميكية:</strong> هل تتغير البيئة أثناء تفكير الوكيل؟</li>
+                    <li><strong>متقطعة/مستمرة:</strong> هل المتغيرات منفصلة أم مستمرة؟</li>
+                    <li><strong>وكيل واحد/متعدد:</strong> هل يعمل الوكيل بمفرده أم مع آخرين؟</li>
+                </ul>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">⚖️</span>أخلاقيات الذكاء الاصطناعي</h2>
+                <p>مع تطور الذكاء الاصطناعي، تظهر قضايا أخلاقية مهمة يجب مراعاتها في التطوير والتطبيق:</p>
+                <ul class="concept-list">
+                    <li><strong>التحيز الخوارزمي:</strong> ضمان العدالة في اتخاذ القرارات</li>
+                    <li><strong>الخصوصية:</strong> حماية البيانات الشخصية</li>
+                    <li><strong>الشفافية:</strong> فهم كيفية اتخاذ القرارات</li>
+                    <li><strong>المساءلة:</strong> تحديد المسؤولية عن القرارات</li>
+                </ul>
+            </div>
+
+            <div class="card interactive-element">
+                <h2><span class="icon">🚀</span>تطبيقات الذكاء الاصطناعي اليوم</h2>
+                <p>الذكاء الاصطناعي موجود في كل مكان حولنا اليوم، من التطبيقات البسيطة إلى الأنظمة المعقدة:</p>
+                <ul class="concept-list">
+                    <li><strong>معالجة اللغة الطبيعية:</strong> المساعدات الصوتية والترجمة</li>
+                    <li><strong>الرؤية الحاسوبية:</strong> التعرف على الوجوه والصور</li>
+                    <li><strong>الروبوتات:</strong> السيارات ذاتية القيادة والروبوتات الصناعية</li>
+                    <li><strong>الألعاب:</strong> برامج الشطرنج والألعاب الاستراتيجية</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam-tips pulse">
+            <h3>🎓 نصائح للاختبار من هذه المحاضرة</h3>
+            <div class="tip-item">
+                <strong>احفظ التعاريف الأساسية:</strong> تأكد من حفظ تعريف الذكاء الاصطناعي واختبار تورينج والوكيل الذكي.
+            </div>
+            <div class="tip-item">
+                <strong>فهم تصنيف البيئات:</strong> تدرب على تصنيف البيئات المختلفة حسب المعايير المذكورة.
+            </div>
+            <div class="tip-item">
+                <strong>ربط النظرية بالتطبيق:</strong> فكر في أمثلة عملية لكل مفهوم نظري.
+            </div>
+            <div class="tip-item">
+                <strong>التاريخ مهم:</strong> تذكر المحطات المهمة في تاريخ الذكاء الاصطناعي.
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>تم إعداد هذا المحتوى بناءً على تحليل نمط أسئلة الدكتور والمحاضرات المقدمة</p>
+        </footer>
+    </div>
+
+    <script>
+        // إضافة تفاعلية للعناصر
+        document.querySelectorAll('.interactive-element').forEach(element => {
+            element.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // تأثير التمرير السلس
+        document.querySelectorAll('.concept-list li').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#e3f2fd';
+                this.style.borderLeftColor = '#2196f3';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '#f8f9fa';
+                this.style.borderLeftColor = '#667eea';
+            });
+        });
+
+        // تأثير الظهور التدريجي عند التمرير
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
+
